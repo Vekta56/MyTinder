@@ -3,15 +3,13 @@ const connectDB = require('./config/database');
 const cookieParser = require("cookie-parser");
 const app = express();
 const cors = require("cors");
-require("dotenv").config();
+const path = require("path");
+require("dotenv").config({ path: path.resolve(__dirname, "../.env") });
 
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-    credentials: true,
-  })
-);
-
+app.use(cors({
+  origin: "http://localhost:5173",
+  credentials: true,
+}));
 app.use(express.json());
 app.use(cookieParser());
 
@@ -32,7 +30,7 @@ connectDB()
       console.log('Сервер запущен на http://localhost:3000');
     });
   })
-  .catch(() => {
-    console.log("База данных не подключена");
+  .catch((err) => {
+    console.log("База данных не подключена" + err);
   });
 
