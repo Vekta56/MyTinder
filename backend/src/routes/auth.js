@@ -46,7 +46,7 @@ router.post("/login", async (req, res) => {
       throw new Error("Incorrect password or mail!");
     }
 
-    const isCorrectPassword = user.validatePassword(password);
+    const isCorrectPassword = await user.validatePassword(password);
 
     if (isCorrectPassword) {
       const token = await user.getJWT();
@@ -58,14 +58,14 @@ router.post("/login", async (req, res) => {
 
   } 
   catch (err) {
-    res.status(404).send("Something went wrong..." + err.message);
+    res.status(404).send(err.message);
   }
 });
 
 router.post("/logout", async (req, res) => {
-  res.cookie('token', '', {
-    expires: new Date(0)
-  });
+  res.clearCookie('token'); // очищает cookie с токеном
+  res.status(200).json({ message: "Logged out successfully" });
 });
+
 
 module.exports = router;
