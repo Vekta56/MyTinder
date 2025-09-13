@@ -33,7 +33,6 @@ router.post("/signup", async (req, res) => {
 
     res.json({ message: "User Added successfully!", data: savedUser });
   } catch (err) {
-    console.error("Ошибка при регистрации:", err.message); // важно!
     res.status(400).send("Ошибка регистрации: " + err.message);
   }
 });
