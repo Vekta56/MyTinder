@@ -14,7 +14,7 @@ router.get("/user/requests/received", userAuto, async (req, res) => {
             status: "interested",
         }).populate("fromUserID", ALLOWED_DATA);
 
-        console.log(userRequests);
+
         if (!userRequests) {
             res.status(400).json({
                 message: "Requests not found",
@@ -81,8 +81,6 @@ router.get("/user/feed", userAuto, async (req, res) => {
             hideUsersFromFeed.add(req.fromUserID.toString());
             hideUsersFromFeed.add(req.toUserID.toString());
         });
-
-        console.log(hideUsersFromFeed);
 
         const users = await User.find({
             $and: [
