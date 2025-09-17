@@ -11,7 +11,7 @@ router.post("/signup", async (req, res) => {
   try {
     validateSignUpData(req);
 
-    const {firstName, lastName, emailID, password} = req.body;
+    const {firstName, lastName, age, emailID, password, gender} = req.body;
 
     const passwordHash = await bcrypt.hash(password, 10);
 
@@ -19,6 +19,7 @@ router.post("/signup", async (req, res) => {
       {
         firstName,
         lastName,
+        age,
         emailID,
         password: passwordHash,
       }

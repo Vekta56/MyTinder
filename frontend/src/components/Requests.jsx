@@ -1,10 +1,8 @@
 import axios from "axios";
 import { BASE_URL } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
-import { addRequests } from "../utils/requestSlice";
-import { useEffect } from "react";
 import { addRequests, removeRequest } from "../utils/requestSlice";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 const Requests = () => {
   const requests = useSelector((store) => store.requests);
@@ -26,19 +24,22 @@ const Requests = () => {
       const res = await axios.get(BASE_URL + "/user/requests/received", {
         withCredentials: true,
       });
-
+      console.log("🚀 API response:", res.data);
       dispatch(addRequests(res.data.data));
     } catch (err) {}
   };
 
   useEffect(() => {
-    fetchRequests();
-  }, []);
+  fetchRequests();
+}, []);
 
-  if (!requests) return;
+if (!requests) {
+  return <h1 className="flex justify-center my-10">Loading...</h1>;
+}
 
-  if (requests.length === 0)
-    return <h1 className="flex justify-center my-10"> No Requests Found</h1>;
+if (requests.length === 0) {
+  return <h1 className="flex justify-center my-10">No Requests Found</h1>;
+}
 
   return (
     <div className="text-center my-10">
@@ -76,7 +77,7 @@ const Requests = () => {
               </button>
               <button
                 className="btn btn-secondary mx-2"
-                onClick={() => reviewRequest("accepted", request._id)}
+                onClick={() => fetchRequests("accepted", request._id)}
               >
                 Accept
               </button>
